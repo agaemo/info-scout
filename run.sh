@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+set -a
+source .env
+set +a
+
+claude -p "$(cat prompt.md)" --allowedTools Bash,WebSearch,WebFetch
