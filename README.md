@@ -1,12 +1,12 @@
 # info-scout
 
 指定したトピックを毎日 Web 検索・収集し、Slack に通知する汎用情報収集エージェント。
-Claude Code CLI と macOS の crontab で動作する。外部 AI API 不要。
+Claude Code CLI と macOS の launchd で動作する。外部 AI API 不要。
 
 ## 仕組み
 
 1. `topics.json` に監視したいトピックとクエリを記載する
-2. crontab が毎日 9:30 に `run.sh` を起動
+2. launchd が毎日 9:30 に `run.sh` を起動（スリープ中でも復帰後に実行）
 3. Claude Code CLI が各クエリを WebSearch で検索・収集し、重要度順にランキングでまとめる
 4. Slack Incoming Webhook 経由で指定チャンネルに送信する
 
@@ -35,19 +35,20 @@ cp .env.example .env
 ./run.sh
 ```
 
-### 4. crontab に登録（毎日 9:30 に自動実行）
+### 4. launchd に登録（毎日 9:30 に自動実行）
 
 ```bash
-crontab -e
+chmod +x setup.sh
+./setup.sh
 ```
 
-以下を追記する（パスは `realpath run.sh` の出力に合わせる）：
+スリープ復帰後に自動実行される。ログは `~/Library/Logs/info-scout.log` に出力される。
 
-```
-30 9 * * * /absolute/path/to/info-scout/run.sh
-```
+### 5. launchd の解除
 
-crontab は PATH が限られるため、`claude` が見つからない場合は `which claude` で取得したフルパスを `run.sh` 内の `claude` コマンドに指定する。
+```bash
+launchctl unload ~/Library/LaunchAgents/com.info-scout.daily.plist
+```
 
 ## トピックの追加・変更
 
@@ -73,4 +74,4 @@ crontab は PATH が限られるため、`claude` が見つからない場合は
 ## 注意
 
 - `.env` の `SLACK_WEBHOOK_URL` はリポジトリにコミットしないこと
-- Mac がスリープ中でも crontab は動作する
+- `claude` コマンドが見つからない場合は `which claude` でフルパスを確認し、`run.sh` に指定する
