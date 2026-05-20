@@ -38,14 +38,19 @@ cp .env.example .env
 ### 4. crontab に登録（毎日 9:30 に自動実行）
 
 ```bash
+# run.sh の絶対パスを確認する
+realpath run.sh
+
 crontab -e
 ```
 
-以下を追記する（パスは環境に合わせて変更）：
+以下を追記する（パスは `realpath run.sh` の出力に合わせる）：
 
 ```
-30 9 * * * /Users/d.handa/development/info-scout/run.sh
+30 9 * * * /absolute/path/to/info-scout/run.sh
 ```
+
+crontab は PATH が限られるため、`claude` が見つからない場合は `which claude` で取得したフルパスを `run.sh` 内の `claude` コマンドに指定する。
 
 ## トピックの追加・変更
 
