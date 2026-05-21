@@ -1,20 +1,18 @@
 [
   {
     "name": "AI最新動向",
-    "queries": [
-      "OpenAI GPT 最新リリース",
-      "Anthropic Claude アップデート",
-      "Google Gemini 新機能"
+    "feeds": [
+      "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "https://venturebeat.com/category/ai/feed/",
+      "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
     ]
   },
   {
     "name": "セキュリティニュース",
-    "queries": [
-      "ランサムウェア 攻撃 最新",
-      "ゼロデイ脆弱性 緊急パッチ",
-      "データ漏洩 インシデント",
-      "CVE 重大脆弱性",
-      "サイバー攻撃 国内"
+    "feeds": [
+      "https://feeds.feedburner.com/TheHackersNews",
+      "https://krebsonsecurity.com/feed/",
+      "https://www.cisa.gov/cybersecurity-advisories/all.xml"
     ]
   }
 ]
