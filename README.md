@@ -6,7 +6,7 @@ Cloudflare Workers で動作する。外部 AI API 不要・完全無料。
 ## 仕組み
 
 1. `topics.json` にトピックと RSS フィード URL を記載する
-2. Cron trigger が毎日 9:30 JST（UTC 0:30）に起動
+2. Cron trigger が毎日 8:30 JST（UTC 23:30）に起動
 3. 各フィードを取得し、過去24時間以内のアイテムを抽出
 4. Workers AI（Llama 3.1）で重要度順にランキング・日本語要約
 5. Slack Webhook でトピックごとに送信

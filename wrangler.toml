@@ -4,7 +4,7 @@ compatibility_date = "2025-04-30"
 compatibility_flags = ["nodejs_compat"]
 
 [triggers]
-crons = ["30 0 * * *"]
+crons = ["30 23 * * *"]
 
 [ai]
 binding = "AI"
