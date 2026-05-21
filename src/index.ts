@@ -9,9 +9,16 @@ const topics = topicsJson as Topic[];
 export default {
   async scheduled(_event: ScheduledEvent, env: Env): Promise<void> {
     for (const topic of topics) {
+      const seen = new Set<string>();
       const allItems = (
         await Promise.all(topic.feeds.map(fetchRecentItems))
-      ).flat();
+      )
+        .flat()
+        .filter((item) => {
+          if (seen.has(item.link)) return false;
+          seen.add(item.link);
+          return true;
+        });
 
       if (allItems.length === 0) {
         console.log(`[${topic.name}] 新しいアイテムなし`);
