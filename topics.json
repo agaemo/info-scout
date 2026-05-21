@@ -11,6 +11,7 @@
     "name": "セキュリティニュース",
     "feeds": [
       "https://feeds.feedburner.com/TheHackersNews",
+      "https://www.bleepingcomputer.com/feed/",
       "https://krebsonsecurity.com/feed/",
       "https://www.cisa.gov/cybersecurity-advisories/all.xml"
     ]
