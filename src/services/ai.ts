@@ -25,7 +25,7 @@ export async function rankAndSummarize(
 ニュース:
 ${list}`;
 
-  const response = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+  const response = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8", {
     prompt,
     max_tokens: 512,
   });
