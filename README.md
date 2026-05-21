@@ -1,76 +1,61 @@
 # info-scout
 
-指定したトピックを毎日 Web 検索・収集し、Slack に通知する汎用情報収集エージェント。
-Claude Code CLI と macOS の crontab で動作する。外部 AI API 不要。
+指定した RSS フィードを毎日収集し、Workers AI で要約・ランキングして Slack に通知する汎用情報収集ツール。
+Cloudflare Workers で動作する。外部 AI API 不要・完全無料。
 
 ## 仕組み
 
-1. `topics.json` に監視したいトピックとクエリを記載する
-2. crontab が毎日 9:30 に `run.sh` を起動
-3. Claude Code CLI が各クエリを WebSearch で検索・収集し、重要度順にランキングでまとめる
-4. Slack Incoming Webhook 経由で指定チャンネルに送信する
+1. `topics.json` にトピックと RSS フィード URL を記載する
+2. Cron trigger が毎日 9:30 JST（UTC 0:30）に起動
+3. 各フィードを取得し、過去24時間以内のアイテムを抽出
+4. Workers AI（Llama 3.1）で重要度順にランキング・日本語要約
+5. Slack Webhook でトピックごとに送信
 
 ## セットアップ
 
-### 1. Slack Webhook URL を取得
-
-1. https://api.slack.com/apps を開き「Create New App」→「From scratch」
-2. 左メニュー「Incoming Webhooks」を ON にする
-3. 「Add New Webhook to Workspace」→ 送信先チャンネルを選択
-4. 表示された Webhook URL をコピーする
-
-### 2. リポジトリのセットアップ
+### 1. 依存関係のインストール
 
 ```bash
-git clone git@agaemo-GitHub:agaemo/info-scout.git
-cd info-scout
-
-cp .env.example .env
-# .env を開いて SLACK_WEBHOOK_URL に取得した URL を設定
+mise install
+pnpm install
 ```
 
-### 3. 動作確認
+### 2. Cloudflare にデプロイ
 
 ```bash
-./run.sh
+pnpm deploy
 ```
 
-### 4. crontab に登録（毎日 9:30 に自動実行）
+### 3. 環境変数を設定
 
-```bash
-crontab -e
-```
+Cloudflare ダッシュボード → Workers & Pages → info-scout → Settings → Variables に追加：
 
-以下を追記する（パスは `realpath run.sh` の出力に合わせる）：
-
-```
-30 9 * * * /absolute/path/to/info-scout/run.sh
-```
-
-crontab は PATH が限られるため、`claude` が見つからない場合は `which claude` で取得したフルパスを `run.sh` 内の `claude` コマンドに指定する。
+| 変数名 | 値 |
+|---|---|
+| `SLACK_WEBHOOK_URL` | Slack Incoming Webhook URL |
 
 ## トピックの追加・変更
 
-`topics.json` を編集して `git push` するだけで次回実行から反映される。
+`topics.json` を編集して PR を出すだけで次回実行から反映される。
 
 ```json
 [
   {
     "name": "トピック名",
-    "queries": [
-      "検索クエリ1",
-      "検索クエリ2"
+    "feeds": [
+      "https://example.com/feed.xml"
     ]
   }
 ]
 ```
 
-## 出力形式
+## 開発
 
-全トピックを横断して重要度順にランキング表示（上位10件）。
-各項目に情報源 URL・日本語概要を付記する。
+```bash
+pnpm dev       # ローカル開発サーバー
+pnpm typecheck # 型チェック
+```
 
 ## 注意
 
-- `.env` の `SLACK_WEBHOOK_URL` はリポジトリにコミットしないこと
-- Mac がスリープ中でも crontab は動作する
+- `SLACK_WEBHOOK_URL` はリポジトリにコミットしないこと（`.dev.vars` に記載）
