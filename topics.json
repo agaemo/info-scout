@@ -3,7 +3,7 @@
     "name": "AI最新動向",
     "feeds": [
       "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "https://venturebeat.com/category/ai/feed/",
+      "https://www.wired.com/feed/category/artificial-intelligence/latest/rss",
       "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
     ]
   },
