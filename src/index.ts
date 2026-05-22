@@ -10,9 +10,8 @@ export default {
   async scheduled(_event: ScheduledEvent, env: Env): Promise<void> {
     for (const topic of topics) {
       const seen = new Set<string>();
-      const allItems = (
-        await Promise.all(topic.feeds.map(fetchRecentItems))
-      )
+      const feedResults = await Promise.all(topic.feeds.map(fetchRecentItems));
+      const allItems = feedResults
         .flat()
         .filter((item) => {
           if (seen.has(item.link)) return false;
@@ -20,12 +19,15 @@ export default {
           return true;
         });
 
+      const perFeed = topic.feeds.map((url, i) => `${url}:${feedResults[i].length}件`).join(", ");
+      console.log(`[${topic.name}] フィード別取得数: ${perFeed}`);
+
       if (allItems.length === 0) {
-        console.log(`[${topic.name}] 新しいアイテムなし`);
+        console.log(`[${topic.name}] 新しいアイテムなし、スキップ`);
         continue;
       }
 
-      console.log(`[${topic.name}] ${allItems.length}件を AI に送信`);
+      console.log(`[${topic.name}] 重複除去後 ${allItems.length}件を AI に送信`);
       const summary = await rankAndSummarize(env, topic.name, allItems);
 
       if (summary) {
