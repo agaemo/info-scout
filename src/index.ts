@@ -28,10 +28,15 @@ export default {
       }
 
       console.log(`[${topic.name}] 重複除去後 ${allItems.length}件を AI に送信`);
-      const summary = await rankAndSummarize(env, topic.name, allItems);
-
-      if (summary) {
-        await notifySlack(env, topic.name, summary);
+      try {
+        const summary = await rankAndSummarize(env, topic.name, allItems);
+        if (summary) {
+          await notifySlack(env, topic.name, summary);
+        } else {
+          console.warn(`[${topic.name}] AI からの応答が空のためスキップ`);
+        }
+      } catch (e) {
+        console.error(`[${topic.name}] 処理エラー:`, e);
       }
     }
   },

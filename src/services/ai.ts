@@ -12,6 +12,7 @@ export async function rankAndSummarize(
   if (items.length === 0) return "";
 
   const list = items
+    .slice(0, 15)
     .map((item, i) => `${i + 1}. ${item.title} (${item.link})`)
     .join("\n");
 
@@ -25,10 +26,14 @@ export async function rankAndSummarize(
 ニュース:
 ${list}`;
 
-  const response = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8", {
-    prompt,
-    max_tokens: 512,
-  });
-
-  return (response as { response: string }).response.trim();
+  try {
+    const response = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8", {
+      prompt,
+      max_tokens: 512,
+    });
+    return (response as { response: string }).response.trim();
+  } catch (e) {
+    console.error(`[AI] ${topicName} の要約失敗:`, e);
+    return "";
+  }
 }
