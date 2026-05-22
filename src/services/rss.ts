@@ -4,7 +4,7 @@ import type { FeedItem } from "../types";
 // entityExpansionLimit は型定義にないが有効なランタイムオプション（デフォルト1000では大規模フィードで超過する）
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parser = new XMLParser(
-  { ignoreAttributes: false, processEntities: false, entityExpansionLimit: 10000 } as any
+  { ignoreAttributes: false, processEntities: true, entityExpansionLimit: 10000 } as any
 );
 
 /** Atom の <link href="..."> 属性、または RSS の文字列リンクを解決する */
