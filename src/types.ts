@@ -12,4 +12,5 @@ export interface Topic {
 export interface Env {
   SLACK_WEBHOOK_URL: string;
   AI: Ai;
+  DB: D1Database;
 }

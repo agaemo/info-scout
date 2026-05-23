@@ -4,7 +4,14 @@ compatibility_date = "2025-04-30"
 compatibility_flags = ["nodejs_compat"]
 
 [triggers]
-crons = ["30 23 * * *"]
+# 0:00 JST: RSS取得・AI要約・D1保存
+# 0:30 JST: D1から未送信レコードをSlack通知
+crons = ["15 23 * * *", "30 23 * * *"]
 
 [ai]
 binding = "AI"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "info-scout-db"
+database_id = "889e5ece-ae06-4f54-8544-03d7b1da9886"
