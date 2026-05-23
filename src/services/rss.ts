@@ -1,7 +1,11 @@
 import { XMLParser } from "fast-xml-parser";
 import type { FeedItem } from "../types";
 
-const parser = new XMLParser({ ignoreAttributes: false });
+// entityExpansionLimit は型定義にないが有効なランタイムオプション（デフォルト1000では大規模フィードで超過する）
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const parser = new XMLParser(
+  { ignoreAttributes: false, processEntities: true, entityExpansionLimit: 10000 } as any
+);
 
 /** Atom の <link href="..."> 属性、または RSS の文字列リンクを解決する */
 function resolveLink(raw: unknown, id: unknown): string {
@@ -32,7 +36,13 @@ export async function fetchRecentItems(feedUrl: string): Promise<FeedItem[]> {
   }
 
   const xml = await res.text();
-  const parsed = parser.parse(xml);
+  let parsed: ReturnType<typeof parser.parse>;
+  try {
+    parsed = parser.parse(xml);
+  } catch (e) {
+    console.warn(`XML parse error: ${feedUrl}`, e);
+    return [];
+  }
 
   const rawItems: unknown[] =
     parsed?.rss?.channel?.item ??
