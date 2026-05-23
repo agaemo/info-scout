@@ -8,6 +8,7 @@ RSS フィードを収集し Workers AI で要約・ランキングして Slack 
 ## 技術スタック
 
 - Runtime: Cloudflare Workers
+- DB: Cloudflare D1（SQLite）
 - 言語: TypeScript
 - パッケージマネージャ: pnpm
 - ツール管理: mise
@@ -36,3 +37,11 @@ pnpm deploy
 ## トピックの追加
 
 `topics.json` の `feeds` 配列に RSS URL を追加するだけ。
+
+## D1 マイグレーション
+
+スキーマ変更は `migrations/` に SQL ファイルを追加し、デプロイ後に適用する。
+
+```bash
+npx wrangler d1 migrations apply info-scout-db --remote
+```
