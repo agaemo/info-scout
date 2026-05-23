@@ -2,9 +2,9 @@
   {
     "name": "AI最新動向",
     "feeds": [
-      "https://techcrunch.com/category/artificial-intelligence/feed/",
-      "https://www.wired.com/feed/category/artificial-intelligence/latest/rss",
-      "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
+      "https://www.technologyreview.com/feed/",
+      "https://spectrum.ieee.org/feeds/topic/artificial-intelligence.rss",
+      "https://www.venturebeat.com/ai/feed/"
     ]
   },
   {
@@ -13,7 +13,8 @@
       "https://feeds.feedburner.com/TheHackersNews",
       "https://www.bleepingcomputer.com/feed/",
       "https://krebsonsecurity.com/feed/",
-      "https://www.cisa.gov/cybersecurity-advisories/all.xml"
+      "https://therecord.media/feed/",
+      "https://www.darkreading.com/rss.xml"
     ]
   }
 ]
