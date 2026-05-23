@@ -13,5 +13,6 @@ binding = "AI"
 
 [[d1_databases]]
 binding = "DB"
+# database_name と database_id は Cloudflare ダッシュボード → D1 で確認できる値に変更する
 database_name = "info-scout-db"
 database_id = "889e5ece-ae06-4f54-8544-03d7b1da9886"

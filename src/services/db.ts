@@ -28,3 +28,13 @@ export async function markNotified(env: Env, id: number): Promise<void> {
     .bind(Date.now(), id)
     .run();
 }
+
+export async function deleteOldSummaries(env: Env, retentionDays: number): Promise<number> {
+  const cutoff = Date.now() - retentionDays * 24 * 60 * 60 * 1000;
+  const result = await env.DB.prepare(
+    "DELETE FROM summaries WHERE notified_at IS NOT NULL AND created_at < ?"
+  )
+    .bind(cutoff)
+    .run();
+  return result.meta.changes;
+}

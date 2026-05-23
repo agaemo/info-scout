@@ -2,7 +2,7 @@ import type { Env, Topic } from "./types";
 import { fetchRecentItems } from "./services/rss";
 import { rankAndSummarize } from "./services/ai";
 import { notifySlack } from "./services/slack";
-import { saveSummary, getPendingSummaries, markNotified } from "./services/db";
+import { saveSummary, getPendingSummaries, markNotified, deleteOldSummaries } from "./services/db";
 import topicsJson from "../topics.json";
 
 const topics = topicsJson as Topic[];
@@ -59,6 +59,9 @@ async function runNotify(env: Env): Promise<void> {
       console.error(`[${record.topic_name}] Slack 送信エラー (id=${record.id}):`, e);
     }
   }
+
+  const deleted = await deleteOldSummaries(env, 7);
+  if (deleted > 0) console.log(`古いレコードを削除: ${deleted}件`);
 }
 
 export default {
