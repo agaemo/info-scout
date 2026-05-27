@@ -2,19 +2,17 @@
   {
     "name": "AI最新動向",
     "feeds": [
-      "https://www.technologyreview.com/feed/",
-      "https://spectrum.ieee.org/feeds/topic/artificial-intelligence.rss",
-      "https://www.venturebeat.com/ai/feed/"
+      "https://rss.itmedia.co.jp/rss/2.0/aiplus.xml",
+      "https://www.techno-edge.net/rss20/index.rdf",
+      "https://ainow.ai/feed/"
     ]
   },
   {
     "name": "セキュリティニュース",
     "feeds": [
-      "https://feeds.feedburner.com/TheHackersNews",
-      "https://www.bleepingcomputer.com/feed/",
-      "https://krebsonsecurity.com/feed/",
-      "https://therecord.media/feed/",
-      "https://www.darkreading.com/rss.xml"
+      "https://www.security-next.com/feed",
+      "https://www.jpcert.or.jp/rss/jpcert.rdf",
+      "https://www.ipa.go.jp/security/rss/alert.rdf"
     ]
   }
 ]
