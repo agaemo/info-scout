@@ -2,7 +2,7 @@
   {
     "name": "AI最新動向",
     "feeds": [
-      "https://rss.itmedia.co.jp/rss/2.0/aiplus.xml",
+      "https://www.publickey1.jp/atom.xml",
       "https://www.techno-edge.net/rss20/index.rdf",
       "https://ainow.ai/feed/"
     ]
