@@ -27,7 +27,7 @@ export async function rankAndSummarize(
 ${list}`;
 
   try {
-    const response = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fp8", {
+    const response = await env.AI.run("@cf/google/gemma-4-26b-a4b-it", {
       prompt,
       max_tokens: 512,
     });
