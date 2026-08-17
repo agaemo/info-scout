@@ -31,7 +31,10 @@ ${list}`;
       prompt,
       max_tokens: 512,
     });
-    return (response as { response: string }).response.trim();
+    const content = (
+      response as { choices?: { message?: { content?: string } }[] }
+    ).choices?.[0]?.message?.content;
+    return (content ?? "").trim();
   } catch (e) {
     console.error(`[AI] ${topicName} の要約失敗:`, e);
     return "";
