@@ -28,8 +28,9 @@ ${list}`;
 
   try {
     const response = await env.AI.run("@cf/google/gemma-4-26b-a4b-it", {
-      prompt,
-      max_tokens: 512,
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 768,
+      chat_template_kwargs: { enable_thinking: false },
     });
     const content = (
       response as { choices?: { message?: { content?: string } }[] }
